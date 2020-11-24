@@ -391,8 +391,9 @@ void parse_inner_txn_content(parse_context_t *context, uint32_t len) {
     uint32_t totalSize = 0;
     do {
         // get header first
+        uint32_t prevOffset = context->offset;
         inner_tx_header_t *txn = (inner_tx_header_t*) read_data(context, sizeof(inner_tx_header_t)); // Read data and security check
-        totalSize += txn->size + 2;
+        totalSize += txn->size;
         // Show Transaction type
         add_new_field(context, XYM_UINT16_INNER_TRANSACTION_TYPE, STI_UINT16, sizeof(uint16_t), (uint8_t*) &txn->innerTxType);
         switch (txn->innerTxType) {
@@ -401,6 +402,7 @@ void parse_inner_txn_content(parse_context_t *context, uint32_t len) {
                 break;
             case XYM_TXN_MOSAIC_DEFINITION:
                 parse_mosaic_definition_txn_content(context, true);
+                move_pos(context, 2);  // Filling zeros
                 break;
             case XYM_TXN_MOSAIC_SUPPLY_CHANGE:
                 parse_mosaic_supply_change_txn_content(context, true);
@@ -432,10 +434,13 @@ void parse_inner_txn_content(parse_context_t *context, uint32_t len) {
             default:
                 break;
         }
-        if (totalSize < len-5) {
-            move_pos(context, 2); //Move position and security check
+        uint32_t processedDataLength = context->offset - prevOffset;
+        if (txn->size > processedDataLength) {
+            move_pos(context, txn->size - processedDataLength); //Move position and security check
+        } else {
+            totalSize = totalSize + (processedDataLength - txn->size);
         }
-    } while (totalSize < len-5);
+    } while (totalSize < len - sizeof(inner_tx_header_t));
 }
 
 void parse_aggregate_txn_content(parse_context_t *context) {
