@@ -17,9 +17,11 @@
 #ifndef LEDGER_APP_XYM_XYMHELPERS_H
 #define LEDGER_APP_XYM_XYMHELPERS_H
 
+#ifndef FUZZ
 #include <os.h>
 #include <cx.h>
 #include <os_io_seproxyhal.h>
+#endif
 #include <stdbool.h>
 
 #define XYM_TXN_TRANSFER 0x4154
@@ -51,6 +53,8 @@
 #define XYM_PKG_GETPUBLICKEY_LENGTH 22
 
 void xym_print_amount(uint64_t amount, uint8_t divisibility, char *asset, char *out);
+#ifndef FUZZ
 void xym_public_key_and_address(cx_ecfp_public_key_t *inPublicKey, uint8_t inNetworkId, uint8_t *outPublicKey, char *outAddress, uint8_t outLen);
+#endif
 
 #endif //LEDGER_APP_XYM_XYMHELPERS_H
