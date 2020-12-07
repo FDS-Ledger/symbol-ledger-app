@@ -153,7 +153,7 @@ static void address_formatter(const field_t *field, char *dst) {
 static void mosaic_formatter(const field_t *field, char *dst) {
     if (field->dataType == STI_MOSAIC_CURRENCY) {
         mosaic_t* value = (mosaic_t *)field->data;
-        if (value->mosaicId == XYM_MOSAIC_ID || field->id == XYM_MOSAIC_HL_QUANTITY) {
+        if (value->mosaicId == XYM_TESTNET_MOSAIC_ID || field->id == XYM_MOSAIC_HL_QUANTITY) {
             xym_print_amount(value->amount, 6, "XYM", dst);
         } else {
             snprintf_mosaic(dst, MAX_FIELD_LEN, value, "micro");
