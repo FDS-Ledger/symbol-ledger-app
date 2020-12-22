@@ -21,6 +21,13 @@
 #include "xym/format/fields.h"
 #include "xym/xym_helpers.h"
 
+typedef enum {
+    ACCOUNT_KEY_LINK = XYM_PUBLICKEY_ACCOUNT_KEY_LINK,
+    NODE_KEY_LINK = XYM_PUBLICKEY_NODE_KEY_LINK,
+    VOTING_KEY_LINK = XYM_PUBLICKEY_VOTING_KEY_LINK,
+    VRF_KEY_LINK = XYM_PUBLICKEY_VRF_KEY_LINK
+} account_link_core_e;
+
 #pragma pack(push, 1)
 typedef struct {
     uint64_t mosaicId;
