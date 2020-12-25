@@ -21,6 +21,8 @@
 #include "xym/format/fields.h"
 #include "xym/xym_helpers.h"
 
+#define XYM_PERSISTENT_DELEGATED_HARVESTING 0xFE
+
 typedef enum {
     ACCOUNT_KEY_LINK = XYM_PUBLICKEY_ACCOUNT_KEY_LINK,
     NODE_KEY_LINK = XYM_PUBLICKEY_NODE_KEY_LINK,
